@@ -7,6 +7,8 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { selectItems } from "../cart/cartSlice";
+import { useSelector } from "react-redux";
 
 const user = {
   name: "Tom Cook",
@@ -31,6 +33,8 @@ function classNames(...classes) {
 }
 
 export default function Navbar({ children }) {
+
+const items=useSelector(selectItems);
   return (
     <div>
       <div className="min-h-full">
@@ -83,9 +87,9 @@ export default function Navbar({ children }) {
                             className="h-6 w-6 mt-3 ml-1"
                             aria-hidden="true"
                           />
-                          <span className="inline-flex items-center rounded-md  bg-red-50  -ml-1.5 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                            3
-                          </span>
+                         {items.length>0 && <span className="inline-flex items-center rounded-md  bg-red-50  -ml-1.5 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                            {items.length}
+                          </span>}
                         </button>
                       </Link>
 
@@ -203,9 +207,9 @@ export default function Navbar({ children }) {
                         />
                       </button>
                     </Link>
-                    <span className="inline-flex items-center rounded-md  bg-red-50 mb-3 -ml-2.5 z-10  px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                      3
-                    </span>
+                    {items.length >0 && <span className="inline-flex items-center rounded-md  bg-red-50 mb-3 -ml-2.5 z-10  px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                     {items.length}
+                    </span>}
                   </div>
                   <div className="mt-3 space-y-1 px-2">
                     {userNavigation.map((item) => (
