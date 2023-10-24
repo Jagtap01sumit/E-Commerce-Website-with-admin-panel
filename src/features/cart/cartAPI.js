@@ -25,11 +25,11 @@ export function deleteItemFromCart(itemId) {
   return new Promise(async (resolve) => {
     const response = await fetch('http://localhost:8080/cart/'+ itemId, {
       method: "DELETE",
-      body: JSON.stringify(itemId),
+      
       headers: { "content-type": "application/json" },
     });
     const data = await response.json();
-    resolve({ data:{id:itemId} });
+    resolve({data:{id:itemId}});
   });
 }
 export function fetchItemsByUserId(userId) {
