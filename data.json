@@ -2402,25 +2402,8 @@
         "https://i.dummyjson.com/data/products/1/thumbnail.jpg"
       ],
       "quantity": 1,
-      "user": 1,
-      "id": 2
-    },
-    {
-      "title": "Samsung Universe 9",
-      "description": "Samsung's new variant which goes beyond Galaxy to the Universe",
-      "price": 1249,
-      "discountPercentage": 15.46,
-      "rating": 4.09,
-      "stock": 36,
-      "brand": "Samsung",
-      "category": "smartphones",
-      "thumbnail": "https://i.dummyjson.com/data/products/3/thumbnail.jpg",
-      "images": [
-        "https://i.dummyjson.com/data/products/3/1.jpg"
-      ],
-      "quantity": 1,
-      "user": 1,
-      "id": 3
+      "user": 2,
+      "id": 1
     }
   ],
   "orders": [
@@ -2492,16 +2475,17 @@
         ],
         "id": 1
       },
-      "paymetMethod": "card",
+      "paymetMethod": "cash",
       "selectedAddress": {
-        "name": "sushant sahebrao jagtap",
+        "name": "sumit",
         "email": "jagtapsumit668@gmail.com",
-        "phone": "6564475878",
-        "street": "pune",
-        "city": "pune",
+        "phone": "9137705219",
+        "street": "Kamothe",
+        "city": "mumbai",
         "state": "maharashtra",
         "pincode": "123123"
       },
+      "status": "pending",
       "id": 1
     },
     {
@@ -2572,16 +2556,17 @@
         ],
         "id": 1
       },
-      "paymetMethod": "card",
+      "paymetMethod": "cash",
       "selectedAddress": {
-        "name": "sushant sahebrao jagtap",
+        "name": "sumit",
         "email": "jagtapsumit668@gmail.com",
-        "phone": "6564475878",
-        "street": "pune",
-        "city": "pune",
+        "phone": "9137705219",
+        "street": "Kamothe",
+        "city": "mumbai",
         "state": "maharashtra",
         "pincode": "123123"
       },
+      "status": "pending",
       "id": 2
     }
   ]
