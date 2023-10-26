@@ -2340,22 +2340,22 @@
       "password": "Sumit@2002",
       "addresses": [
         {
-          "name": "sumit",
+          "name": "sushant  jagtap",
           "email": "jagtapsumit668@gmail.com",
-          "phone": "9137705219",
-          "street": "Kamothe",
-          "city": "mumbai",
-          "state": "maharashtra",
-          "pincode": "123123"
-        },
-        {
-          "name": "sushant sahebrao jagtap",
-          "email": "jagtapsumit668@gmail.com",
-          "phone": "6564475878",
-          "street": "pune",
           "city": "pune",
           "state": "maharashtra",
-          "pincode": "123123"
+          "pincode": "123123",
+          "phone": "6564475878",
+          "street": "pune"
+        },
+        {
+          "name": "jack ",
+          "email": "jack@gmail.com",
+          "city": "dfsdf",
+          "state": "maharashtra",
+          "pincode": "123123",
+          "phone": "9137705219",
+          "street": "erreeadfa"
         }
       ],
       "id": 1
@@ -2403,7 +2403,20 @@
       ],
       "quantity": 1,
       "user": 2,
-      "id": 1
+      "id": 1,
+      "email": "jagtapsumit668@gmail.com",
+      "password": "Sumit@2002",
+      "addresses": [
+        {
+          "name": "sushant sahebrao jagtap",
+          "email": "jagtapsumit668@gmail.com",
+          "phone": "6564475878",
+          "street": "pune",
+          "city": "pune",
+          "state": "maharashtra",
+          "pincode": "123123"
+        }
+      ]
     }
   ],
   "orders": [
@@ -2568,6 +2581,69 @@
       },
       "status": "pending",
       "id": 2
+    },
+    {
+      "items": [
+        {
+          "title": "iPhone X",
+          "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
+          "price": 899,
+          "discountPercentage": 17.94,
+          "rating": 4.44,
+          "stock": 34,
+          "brand": "Apple",
+          "category": "smartphones",
+          "thumbnail": "https://i.dummyjson.com/data/products/2/thumbnail.jpg",
+          "images": [
+            "https://i.dummyjson.com/data/products/2/1.jpg",
+            "https://i.dummyjson.com/data/products/2/2.jpg",
+            "https://i.dummyjson.com/data/products/2/3.jpg",
+            "https://i.dummyjson.com/data/products/2/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 1,
+          "id": 2
+        }
+      ],
+      "totalAmount": 899,
+      "totalItems": 1,
+      "user": {
+        "email": "jagtapsumit668@gmail.com",
+        "password": "Sumit@2002",
+        "addresses": [
+          {
+            "name": "sumit",
+            "email": "jagtapsumit668@gmail.com",
+            "phone": "9137705219",
+            "street": "Kamothe",
+            "city": "mumbai",
+            "state": "maharashtra",
+            "pincode": "123123"
+          },
+          {
+            "name": "sushant sahebrao jagtap",
+            "email": "jagtapsumit668@gmail.com",
+            "phone": "6564475878",
+            "street": "pune",
+            "city": "pune",
+            "state": "maharashtra",
+            "pincode": "123123"
+          }
+        ],
+        "id": 1
+      },
+      "paymetMethod": "cash",
+      "selectedAddress": {
+        "name": "sumit",
+        "email": "jagtapsumit668@gmail.com",
+        "phone": "9137705219",
+        "street": "Kamothe",
+        "city": "mumbai",
+        "state": "maharashtra",
+        "pincode": "123123"
+      },
+      "status": "pending",
+      "id": 3
     }
   ]
 }

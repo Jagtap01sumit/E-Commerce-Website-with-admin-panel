@@ -9,11 +9,13 @@ import {
 } from "../features/cart/cartSlice";
 
 import { Link } from "react-router-dom";
+import { updateUserAsync } from "../features/auth/authSlice";
 import {
-  selectLoggedInUser,
-  updateUserAsync,
-} from "../features/auth/authSlice";
-import { createOrderAsync, selectCurrentOrder, selectCurrentOrderStatus } from "../features/order/orderSlice";
+  createOrderAsync,
+  selectCurrentOrder,
+ 
+} from "../features/order/orderSlice";
+import { selectUserInfo } from "../features/user/userSlice";
 
 export default function CheckOut() {
   const [open, setOpen] = useState(true);
@@ -21,8 +23,8 @@ export default function CheckOut() {
   const [paymetMethod, setPaymentMethod] = useState("cash");
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
-  const user = useSelector(selectLoggedInUser);
-  const currentOrder=useSelector(selectCurrentOrder);
+  const user = useSelector(selectUserInfo);
+  const currentOrder = useSelector(selectCurrentOrder);
 
   const totalAmount = items.reduce(
     (amount, item) => item.price * item.quantity + amount,
@@ -52,7 +54,7 @@ export default function CheckOut() {
       user,
       paymetMethod,
       selectedAddress,
-      status:'pending'//other status can be deliver,received
+      status: "pending", //other status can be deliver,received
     };
     dispatch(createOrderAsync(order));
     //TODO: redirect to order-success page
@@ -68,7 +70,12 @@ export default function CheckOut() {
   return (
     <>
       {!items.length && <Navigate to="/" replace={true}></Navigate>}
-      {currentOrder && <Navigate to={`/orderSuccessPage/${currentOrder.id}`} replace={true}></Navigate>}
+      {currentOrder && (
+        <Navigate
+          to={`/orderSuccessPage/${currentOrder.id}`}
+          replace={true}
+        ></Navigate>
+      )}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
           <div className="lg:col-span-3">
@@ -263,7 +270,7 @@ export default function CheckOut() {
                     Choose from existing addreess
                   </p>
                   <ul role="list">
-                    {user.addresses &&
+                    {
                       user.addresses.map((address, index) => (
                         <li
                           key={index}
