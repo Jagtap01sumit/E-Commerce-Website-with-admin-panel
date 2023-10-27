@@ -29,5 +29,13 @@ export function checkUser(loginInfo) {
     resolve({ data });
   });
 }
+export function signOut(userId) {
+  return new Promise(async (resolve) => {
+    
+    //TODO: ons erver we will remove user session info;
+    
+    resolve({ data:'success' });
+  });
 
+}
 
