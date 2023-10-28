@@ -9,19 +9,12 @@ import {
 import { Link } from "react-router-dom";
 import { selectItems } from "../cart/cartSlice";
 import { useSelector } from "react-redux";
+import { selectLoggedInUser } from "../auth/authSlice";
 
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-  { name: "Reports", href: "#", current: false },
+  { name: "Dashboard", link: "#", user: true },
+  { name: "Team", link: "#", user: true },
+  { name: "Admin", link: "/admin", admin: true },
 ];
 const userNavigation = [
   { name: "Your Profile", link: "/profile" },
@@ -33,8 +26,8 @@ function classNames(...classes) {
 }
 
 export default function Navbar({ children }) {
-
-const items=useSelector(selectItems);
+  const items = useSelector(selectItems);
+  const user=useSelector(selectLoggedInUser);
   return (
     <div>
       <div className="min-h-full">
@@ -55,21 +48,23 @@ const items=useSelector(selectItems);
                     </Link>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
-                        {navigation.map((item) => (
-                          <a
-                            key={item.name}
-                            href={item.href}
-                            className={classNames(
-                              item.current
-                                ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                              "rounded-md px-3 py-2 text-sm font-medium"
-                            )}
-                            aria-current={item.current ? "page" : undefined}
-                          >
-                            {item.name}
-                          </a>
-                        ))}
+                        {navigation.map((item) =>
+                          item[user.role] ? (
+                            <Link
+                              key={item.name}
+                              to={item.link}
+                              className={classNames(
+                                item.current
+                                  ? "bg-gray-900 text-white"
+                                  : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                                "rounded-md px-3 py-2 text-sm font-medium"
+                              )}
+                              aria-current={item.current ? "page" : undefined}
+                            >
+                              {item.name}
+                            </Link>
+                          ) : null
+                        )}
                       </div>
                     </div>
                   </div>
@@ -87,9 +82,11 @@ const items=useSelector(selectItems);
                             className="h-6 w-6 mt-3 ml-1"
                             aria-hidden="true"
                           />
-                         {items.length>0 && <span className="inline-flex items-center rounded-md  bg-red-50  -ml-1.5 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                            {items.length}
-                          </span>}
+                          {items.length > 0 && (
+                            <span className="inline-flex items-center rounded-md  bg-red-50  -ml-1.5 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                              {items.length}
+                            </span>
+                          )}
                         </button>
                       </Link>
 
@@ -120,7 +117,7 @@ const items=useSelector(selectItems);
                               <Menu.Item key={item.name}>
                                 {({ active }) => (
                                   <Link
-                                   to={item.link}
+                                    to={item.link}
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
@@ -207,9 +204,11 @@ const items=useSelector(selectItems);
                         />
                       </button>
                     </Link>
-                    {items.length >0 && <span className="inline-flex items-center rounded-md  bg-red-50 mb-3 -ml-2.5 z-10  px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-                     {items.length}
-                    </span>}
+                    {items.length > 0 && (
+                      <span className="inline-flex items-center rounded-md  bg-red-50 mb-3 -ml-2.5 z-10  px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                        {items.length}
+                      </span>
+                    )}
                   </div>
                   <div className="mt-3 space-y-1 px-2">
                     {userNavigation.map((item) => (

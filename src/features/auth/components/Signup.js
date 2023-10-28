@@ -40,7 +40,9 @@ export default function Signup() {
             method="POST"
             onSubmit={handleSubmit((data) => {
               dispatch(
-                createUserAsync({ email: data.email, password: data.password , addresses:[]})
+                createUserAsync({ email: data.email, password: data.password , addresses:
+                  [],role:'user'})
+                  //TODO: htis role can be directly given on backend
               );
               console.log(data);
             })}

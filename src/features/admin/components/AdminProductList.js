@@ -9,7 +9,7 @@ import {
   selectBrands,
   fetchBrandsAsync,
   fetchCategoriesAsync,
-} from "../productListSlice";
+} from "../../product-list/productListSlice";
 import { ITEMS_PER_PAGE } from "../../../app/constants";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import {
@@ -27,7 +27,7 @@ import {
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
-import { fetchProductsByFilters } from "../productAPI";
+import { fetchProductsByFilters } from "../../product-list/productAPI";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -46,7 +46,7 @@ const subCategories = [
   { name: "Laptop Sleeves", href: "#" },
 ];
 
-export default function ProductList() {
+export default function AdminProductList() {
   const dispatch = useDispatch();
   const products = useSelector(selectAllProducts);
   const brands = useSelector(selectBrands);
@@ -107,6 +107,7 @@ export default function ProductList() {
     dispatch(fetchBrandsAsync());
     dispatch(fetchCategoriesAsync());
   }, []);
+
   return (
     <div>
       <div>
@@ -198,6 +199,12 @@ export default function ProductList() {
               <DesktopFilter handleFilter={handleFilter} filters={filters} />
               {/* Product grid */}
               <div className="lg:col-span-3">
+              <Link to="/admin/product-form"
+                    type="submit"
+                    className="rounded-md mx-9 bg-green-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Add New Product
+                  </Link>
                 <ProductGrid products={products}></ProductGrid>
               </div>
             </div>
@@ -474,6 +481,7 @@ function ProductGrid({ products }) {
         <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
             {products.map((product) => (
+              <div>
               <Link to={`/product-details/${product.id}`}>
                 <div
                   key={product.id}
@@ -509,18 +517,27 @@ function ProductGrid({ products }) {
                         {Math.round(
                           product.price * (1 - product.discountPercentage / 100)
                         )}
-                        
                       </p>
                       <p className="text-sm line-through font-medium text-gray-400">
                         ${product.price}
                       </p>
                     </div>
                   </div>
+                  <div>
+                  </div>
                   {product.deleted && <div className="text-sm text-red-400 ">
                     <p>product deleted</p>
                   </div>}
                 </div>
               </Link>
+                  <Link
+                  to={`/admin/product-form/edit/${product.id}`}
+                    type="submit"
+                    className="rounded-md my-2 bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Edit Product
+                  </Link>
+              </div>
             ))}
           </div>
         </div>

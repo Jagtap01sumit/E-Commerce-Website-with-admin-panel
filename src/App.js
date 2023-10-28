@@ -28,7 +28,12 @@ import { fetchLoggedInUser } from "./features/user/userAPI";
 import { fetchLoggedInUserAsync } from "./features/user/userSlice";
 import Logout from "./features/auth/components/Logout";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-
+import Login from "./features/auth/components/Login";
+import ProtectedAdmin from "./features/auth/components/ProtectedAdmin";
+import AdminHome from "./pages/AdminHome";
+import AdminProductDetailPage from "./pages/AdminProductDetailPage";
+import ProductForm from "./features/admin/components/ProductForm";
+import AdminProductForm from "./pages/AdminProductForm";
 
 const router = createBrowserRouter([
   {
@@ -73,38 +78,58 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: (
-     <PageNotFound></PageNotFound>
-    ),
+    element: <PageNotFound></PageNotFound>,
   },
   {
     path: "/orderSuccessPage/:id",
-    element: (
-    <OrderSuccessPage></OrderSuccessPage>
-    ),
+    element: <OrderSuccessPage></OrderSuccessPage>,
   },
   {
     path: "/orders",
-    element: (
-<UserOrdersPage></UserOrdersPage>
-    ),
+    element: <UserOrdersPage></UserOrdersPage>,
   },
   {
     path: "/profile",
-    element: (
-<UserProfilePage></UserProfilePage>
-    ),
+    element: <UserProfilePage></UserProfilePage>,
   },
   {
     path: "/logout",
-    element: (
-<Logout></Logout>
-    ),
+    element: <Logout></Logout>,
   },
   {
     path: "/forgot-password",
+    element: <ForgotPasswordPage></ForgotPasswordPage>,
+  },
+  {
+    path: "/admin",
     element: (
-<ForgotPasswordPage></ForgotPasswordPage>
+      <ProtectedAdmin>
+        <AdminHome></AdminHome>
+      </ProtectedAdmin>
+    ),
+  },
+  {
+    path: "/admin/product-details/:id",
+    element: (
+      <ProtectedAdmin>
+        <AdminProductDetailPage />
+      </ProtectedAdmin>
+    ),
+  },
+  {
+    path: "/admin/product-form",
+    element: (
+      <ProtectedAdmin>
+        <AdminProductForm />
+      </ProtectedAdmin>
+    ),
+  },
+  {
+    path: "/admin/product-form/edit/:id",
+    element: (
+      <ProtectedAdmin>
+        <AdminProductForm />
+      </ProtectedAdmin>
     ),
   },
 ]);
@@ -115,7 +140,7 @@ function App() {
   useEffect(() => {
     if (user) {
       dispatch(fetchItemsByUserIdAsync(user.id));
-      dispatch(fetchLoggedInUserAsync(user.id))
+      dispatch(fetchLoggedInUserAsync(user.id));
     }
   }, [dispatch, user]);
   return (
