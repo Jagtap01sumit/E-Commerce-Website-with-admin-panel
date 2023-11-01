@@ -7,6 +7,7 @@ import {
 } from "./cartSlice";
 import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { discountPrice } from "../../app/constants";
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ export default function Cart() {
 
   const items = useSelector(selectItems);
   const totalAmount = items.reduce(
-    (amount, item) => item.price * item.quantity + amount,
+    (amount, item) => discountPrice(item) * item.quantity + amount,
     0
   );
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
@@ -28,7 +29,9 @@ export default function Cart() {
     dispatch(deleteItemFromCartAsync(id));
   };
   return (
-    <> {!items.length && <Navigate to="/" replace={true}></Navigate>}
+    <>
+      {" "}
+      {!items.length && <Navigate to="/" replace={true}></Navigate>}
       <div className="mx-auto  max-w-7xl px-4 sm:px-6 lg:px-8 bg-white">
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
           <h1 className="text-4xl my-5 font-bold tracking-tight text-gray-900">
@@ -52,7 +55,7 @@ export default function Cart() {
                         <h3>
                           <a href={item.href}>{item.title}</a>
                         </h3>
-                        <p className="ml-4">${item.price}</p>
+                        <p className="ml-4">${discountPrice(item)}</p>
                       </div>
                       <p className="mt-1 text-sm text-gray-500">{item.brand}</p>
                     </div>
@@ -76,7 +79,7 @@ export default function Cart() {
 
                       <div className="flex">
                         <button
-                          onClick={e => handleRemove(e, item.id)}
+                          onClick={(e) => handleRemove(e, item.id)}
                           type="button"
                           className="font-medium text-indigo-600 hover:text-indigo-500"
                         >
