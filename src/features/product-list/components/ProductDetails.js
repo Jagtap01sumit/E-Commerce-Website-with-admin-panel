@@ -9,10 +9,10 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { addToCart } from "../../cart/cartAPI";
-import { addToCartAsync } from "../../cart/cartSlice";
+import { addToCartAsync, selectItems } from "../../cart/cartSlice";
 import { selectLoggedInUser } from "../../auth/authSlice";
 import { discountPrice } from "../../../app/constants";
-
+import { useAlert } from "react-alert";
 const colors = [
   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
   { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
@@ -36,20 +36,30 @@ function classNames(...classes) {
 export default function ProductDetails() {
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
+  const items=useSelector(selectItems)
   const user = useSelector(selectLoggedInUser);
   const product = useSelector(selectProductById);
   const dispatch = useDispatch();
   const params = useParams();
-
+  const alert = useAlert();
   useEffect(() => {
     dispatch(fetchProductByIdAsync(params.id));
   }, [dispatch, params.id]);
 
   const handleCart = (e) => {
     e.preventDefault();
-    const newItem = { ...product, quantity: 1, user: user.id };
-    delete newItem['id'];
-    dispatch(addToCartAsync(newItem));
+    if(items.findIndex(item=>item.productId===product.id)<0){
+
+      const newItem = { ...product,productId:product.id, quantity: 1, user: user.id };
+      delete newItem['id'];
+      dispatch(addToCartAsync(newItem));
+      alert.success('Item added to cart')
+      //TODO: check is item added from server side?
+    }else{
+     
+        alert.show('Already Added !!!')
+    
+    }
   };
 
   return (
@@ -297,10 +307,13 @@ export default function ProductDetails() {
                   onClick={handleCart}
                   type="submit"
                   className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                 
                 >
                   Add to Cart
                 </button>
+
               </form>
+            
             </div>
 
             <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">

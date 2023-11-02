@@ -1,20 +1,23 @@
 import React, { useState, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Hourglass } from "react-loader-spinner";
 import {
   deleteItemFromCartAsync,
   selectItems,
   updateCartAsync,
+  selectCartStatus,
 } from "./cartSlice";
 import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { discountPrice } from "../../app/constants";
-
+import Modal from "../common/Modal";
 export default function Cart() {
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(true);
-
+  const status = useSelector(selectCartStatus);
   const items = useSelector(selectItems);
+  const [openModal,setOpenModal]=useState(null)
   const totalAmount = items.reduce(
     (amount, item) => discountPrice(item) * item.quantity + amount,
     0
@@ -38,6 +41,17 @@ export default function Cart() {
             Cart
           </h1>
           <div className="flow-root">
+            {status === "loading" ? (
+              <Hourglass
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="hourglass-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+                colors={["#306cce", "#72a1ed"]}
+              />
+            ) : null}
             <ul role="list" className="-my-6 divide-y divide-gray-200">
               {items.map((item) => (
                 <li key={item.id} className="flex py-6">
@@ -78,8 +92,18 @@ export default function Cart() {
                       </div>
 
                       <div className="flex">
+                        <Modal
+                          title={`Delete ${item.title}`}
+                          message="Are you sure you want to delete this cart item"
+                          
+                          dangerOption="Delete"
+                          cancelOption="Cancel"
+                          dangerAction={(e)=>handleRemove(e,item.id)}
+                          cancelAction={()=>setOpenModal(-1)}
+                          showModal={openModal===item.id}
+                        />
                         <button
-                          onClick={(e) => handleRemove(e, item.id)}
+                          onClick={(e)=>{setOpenModal(item.id)}}
                           type="button"
                           className="font-medium text-indigo-600 hover:text-indigo-500"
                         >

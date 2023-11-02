@@ -80,7 +80,7 @@ export default function UserOrders() {
               <p className="mt-0.5 text-sm text-gray-500">
                 Shipping Address :
               </p>
-              <div className="mt-6">
+              {order.selectedAddress &&  <div className="mt-6">
                 {" "}
                 <div
                 
@@ -88,7 +88,7 @@ export default function UserOrders() {
                 >
                   <div className="flex min-w-0 gap-x-4">
                     
-                    <div className="min-w-0 flex-auto">
+                   <div className="min-w-0 flex-auto">
                       <p className="text-sm font-semibold leading-6 text-gray-900">
                         {order.selectedAddress.name}
                       </p>
@@ -113,7 +113,7 @@ export default function UserOrders() {
                     </p>
                   </div>
                 </div>
-              </div>
+              </div>}
             </div>
           </div>
         </div>
