@@ -1,9 +1,18 @@
 export function fetchAllProducts() {
-  //TODO: we will not hard-code server URL here
-  return new Promise(async (resolve) => {
-    const response = await fetch(" http://localhost:8080/products");
-    const data = await response.json();
-    resolve({ data });
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch("http://localhost:8080/products");
+      if (!response.ok) {
+    
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      resolve({ data });
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      reject(error);
+    }
   });
 }
 export function fetchProductById(id) {

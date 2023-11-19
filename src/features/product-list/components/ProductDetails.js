@@ -36,7 +36,7 @@ function classNames(...classes) {
 export default function ProductDetails() {
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
-  const items=useSelector(selectItems)
+  const items = useSelector(selectItems);
   const user = useSelector(selectLoggedInUser);
   const product = useSelector(selectProductById);
   const dispatch = useDispatch();
@@ -48,17 +48,19 @@ export default function ProductDetails() {
 
   const handleCart = (e) => {
     e.preventDefault();
-    if(items.findIndex(item=>item.productId===product.id)<0){
-
-      const newItem = { ...product,productId:product.id, quantity: 1, user: user.id };
-      delete newItem['id'];
+    if (items.findIndex((item) => item.product.id === product.id) < 0) {
+      const newItem = {
+      
+        product: product.id,
+        quantity: 1,
+        user: user.id,
+      };
+      
       dispatch(addToCartAsync(newItem));
-      alert.success('Item added to cart')
+      alert.success("Item added to cart");
       //TODO: check is item added from server side?
-    }else{
-     
-        alert.show('Already Added !!!')
-    
+    } else {
+      alert.show("Already Added !!!");
     }
   };
 
@@ -153,10 +155,10 @@ export default function ProductDetails() {
               <h2 className="sr-only">Product information</h2>
               <p className="text-xl  line-through tracking-tight text-gray-900">
                 $ {product.price}
-              </p> <p className="text-3xl tracking-tight text-gray-900">
+              </p>{" "}
+              <p className="text-3xl tracking-tight text-gray-900">
                 $ {discountPrice(product)}
               </p>
-
               {/* Reviews */}
               <div className="mt-6">
                 <h3 className="sr-only">Reviews</h3>
@@ -178,7 +180,6 @@ export default function ProductDetails() {
                   <p className="sr-only">{product.rating} out of 5 stars</p>
                 </div>
               </div>
-
               <form className="mt-10">
                 {/* Colors */}
                 <div>
@@ -307,13 +308,10 @@ export default function ProductDetails() {
                   onClick={handleCart}
                   type="submit"
                   className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                 
                 >
                   Add to Cart
                 </button>
-
               </form>
-            
             </div>
 
             <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">

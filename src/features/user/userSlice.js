@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchLoggedInUser, fetchLoggedInUserOrders, updateUser } from "./userAPI";
+import {
+  fetchLoggedInUser,
+  fetchLoggedInUserOrders,
+  updateUser,
+} from "./userAPI";
 
 const initialState = {
   userOrders: [],
@@ -67,12 +71,16 @@ export const userSlice = createSlice({
         state.status = "idle";
 
         state.userInfo = action.payload;
+        console.log(action)
       });
   },
 });
 
 export const { increment } = userSlice.actions;
 
-export const selectUserInfo = (state) => state.user.userInfo;
+export const selectUserInfo = (state) => {
+  
+  return state.user.userInfo;
+};
 export const selectUserOrders = (state) => state.user.userOrders;
 export default userSlice.reducer;
