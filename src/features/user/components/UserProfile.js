@@ -5,17 +5,17 @@ import { updateCartAsync } from "../../cart/cartSlice";
 import { useForm } from "react-hook-form";
 export default function UserProfile() {
   const dispatch = useDispatch();
-  const user = useSelector(selectUserInfo);
-console.log(user);
+  const userInfo = useSelector(selectUserInfo);
+  console.log(userInfo);
   // console.log("USEr", user.name);
   const handleEdit = (addressUpdata, index) => {
-    const newUser = { ...user, addresses: [...user.addresses] }; //for shallow copy issue
+    const newUser = { ...userInfo, addresses: [...userInfo.addresses] }; //for shallow copy issue
     newUser.addresses.splice(index, 1, addressUpdata);
     dispatch(updateUserAsync(newUser));
     setSelectedIndex(-1);
   };
   const handleRemove = (e, index) => {
-    const newUser = { ...user, addresses: [...user.addresses] }; //for shallow copy issue
+    const newUser = { ...userInfo, addresses: [...userInfo.addresses] }; //for shallow copy issue
     newUser.addresses.splice(index, 1);
     dispatch(updateUserAsync(newUser));
   };
@@ -30,7 +30,7 @@ console.log(user);
   } = useForm();
   const handleEditForm = (index) => {
     setSelectedIndex(index);
-    const address = user.addresses[index];
+    const address = userInfo.addresses[index];
     setValue("name", address.name);
     setValue("email", address.email);
     setValue("city", address.city);
@@ -40,39 +40,42 @@ console.log(user);
     setValue("street", address.street);
   };
   const handleAdd = (address) => {
-    const newUser = { ...user, addresses: [...user.addresses, address] }; //for shallow copy issue
+    const newUser = {
+      ...userInfo,
+      addresses: [...userInfo.addresses, address],
+    }; //for shallow copy issue
 
     dispatch(updateUserAsync(newUser));
     setShowAddAddressForm(false);
   };
-  console.log({user});
+  console.log({ user: userInfo });
   return (
     <div>
       <div className="mx-auto  max-w-7xl px-4 sm:px-6 lg:px-8 bg-white">
-        {user && <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-         
-              {user.name && (
-                <h1 className="text-4xl my-5 font-bold tracking-tight text-gray-900">
-                  Name : {user.name ? user.name : "New User"}
-                </h1>
-              )}
-           
-          
-          {user.email && (
-            <h3 className="text-xl my-5 font-bold tracking-tight text-red-500">
-              Email address: {user.email}
-            </h3>
-          )}
-          {user.role && (
-            <h1>
-              {user.role === "admin" && (
-                <h3 className="text-xl my-5 font-bold tracking-tight text-red-500">
-                  role: {user.role}
-                </h3>
-              )}
-            </h1>
-          )}
-        </div>}
+        {userInfo && (
+          <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
+            {userInfo.name && (
+              <h1 className="text-4xl my-5 font-bold tracking-tight text-gray-900">
+                Name : {userInfo.name ? userInfo.name : "New User"}
+              </h1>
+            )}
+
+            {userInfo.email && (
+              <h3 className="text-xl my-5 font-bold tracking-tight text-red-500">
+                Email address: {userInfo.email}
+              </h3>
+            )}
+            {userInfo.role && (
+              <h1>
+                {userInfo.role === "admin" && (
+                  <h3 className="text-xl my-5 font-bold tracking-tight text-red-500">
+                    role: {userInfo.role}
+                  </h3>
+                )}
+              </h1>
+            )}
+          </div>
+        )}
 
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
           <button
@@ -265,7 +268,7 @@ console.log(user);
             </form>
           ) : null}
           <p className="mt-0.5 text-sm text-gray-500">Your Address :</p>
-          {user.addresses.map((address, index) => (
+          {userInfo.addresses.map((address, index) => (
             <div>
               {selectedEditIndex === index ? (
                 <form

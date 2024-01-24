@@ -9,11 +9,10 @@ import {
 } from "../features/cart/cartSlice";
 
 import { Link } from "react-router-dom";
-import { updateUserAsync } from "../features/auth/authSlice";
+import { updateUserAsync } from "../features/user/userSlice";
 import {
   createOrderAsync,
   selectCurrentOrder,
- 
 } from "../features/order/orderSlice";
 import { selectUserInfo } from "../features/user/userSlice";
 import { discountPrice } from "../app/constants";
@@ -35,7 +34,7 @@ export default function CheckOut() {
   );
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
   const handleQuantity = (e, item) => {
-    dispatch(updateCartAsync({ id:item.id, quantity: +e.target.value }));
+    dispatch(updateCartAsync({ id: item.id, quantity: +e.target.value }));
   };
   const handleRemove = (e, id) => {
     dispatch(deleteItemFromCartAsync(id));
@@ -54,7 +53,7 @@ export default function CheckOut() {
       items,
       totalAmount,
       totalItems,
-      user:user.id,
+      user: user.id,
       paymetMethod,
       selectedAddress,
       status: "pending", //other status can be deliver,received
@@ -89,11 +88,13 @@ export default function CheckOut() {
                 console.log(data);
                 console.log("OnSUser:");
                 console.log(JSON.stringify(user));
-                console.log("Addresses:", user ,"&&", user.addresses);
+                console.log("Addresses:", user, "&&", user.addresses);
                 dispatch(
                   updateUserAsync({
                     ...user,
-                    addresses: user.addresses ? [...user.addresses,data]: [data],
+                    addresses: user.addresses
+                      ? [...user.addresses, data]
+                      : [data],
                   })
                 );
                 reset();
@@ -272,9 +273,9 @@ export default function CheckOut() {
                   <p className="mt-1 text-sm leading-6 text-gray-600">
                     Choose from existing addreess
                   </p>
-                 { user && <ul role="list">
-                    {
-                      user?.addresses?.map((address, index) => (
+                  {user && (
+                    <ul role="list">
+                      {user?.addresses?.map((address, index) => (
                         <li
                           key={index}
                           className="flex justify-between gap-x-6 border-solid border-2 border-gray-200 px-5 py-5"
@@ -313,7 +314,8 @@ export default function CheckOut() {
                           </div>
                         </li>
                       ))}
-                  </ul>}
+                    </ul>
+                  )}
 
                   <div className="mt-10 space-y-10">
                     <fieldset>
@@ -387,9 +389,13 @@ export default function CheckOut() {
                           <div>
                             <div className="flex justify-between text-base font-medium text-gray-900">
                               <h3>
-                                <a href={item.product.id}>{item.product.title}</a>
+                                <a href={item.product.id}>
+                                  {item.product.title}
+                                </a>
                               </h3>
-                              <p className="ml-4">${discountPrice(item.product)}</p>
+                              <p className="ml-4">
+                                ${discountPrice(item.product)}
+                              </p>
                             </div>
                             <p className="mt-1 text-sm text-gray-500">
                               {item.product.brand}

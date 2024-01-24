@@ -9,16 +9,17 @@ import { discountPrice } from "../../../app/constants";
 
 export default function UserOrders() {
   const dispatch = useDispatch();
-  const user = useSelector(selectUserInfo);
+  const userInfo = useSelector(selectUserInfo);
   const orders = useSelector(selectUserOrders);
+  console.log(orders);
 
   useEffect(() => {
-    dispatch(fetchLoggedInUserOrdersAsync(user.id));
-  }, [dispatch,user]);
+    dispatch(fetchLoggedInUserOrdersAsync(userInfo.id));
+  }, [dispatch, userInfo]);
 
   return (
     <div>
-      {orders.map((order) => (
+      {orders?.map((order) => (
         <div>
           <div className="mx-auto  max-w-7xl px-4 sm:px-6 lg:px-8 bg-white">
             <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
@@ -30,7 +31,7 @@ export default function UserOrders() {
               </h3>
               <div className="flow-root">
                 <ul role="list" className="-my-6 divide-y divide-gray-200">
-                  {order.items.map((item) => (
+                  {order?.items.map((item) => (
                     <li key={item.id} className="flex py-6">
                       <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                         <img
@@ -46,7 +47,9 @@ export default function UserOrders() {
                             <h3>
                               <a href={item.product.id}>{item.product.title}</a>
                             </h3>
-                            <p className="ml-4">${discountPrice(item)}</p>
+                            <p className="ml-4">
+                              ${discountPrice(item.product)}
+                            </p>
                           </div>
                           <p className="mt-1 text-sm text-gray-500">
                             {item.product.brand}
