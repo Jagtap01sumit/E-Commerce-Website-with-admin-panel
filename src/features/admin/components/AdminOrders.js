@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ITEMS_PER_PAGE } from "../../../app/constants";
+import { ITEMS_PER_PAGE, discountPrice } from "../../../app/constants";
 import {
   PencilIcon,
   EyeIcon,
@@ -102,7 +102,12 @@ export default function AdminOrders() {
                       }
                     >
                       Total Amounts
-                      {sort._sort==='totalAmount' && (sort._order==='asc'? (<ArrowUpIcon className="'w-4 h-4 inline"/>):(<ArrowDownIcon className="'w-4 h-4 inline"/>))}
+                      {sort._sort === "totalAmount" &&
+                        (sort._order === "asc" ? (
+                          <ArrowUpIcon className="'w-4 h-4 inline" />
+                        ) : (
+                          <ArrowDownIcon className="'w-4 h-4 inline" />
+                        ))}
                     </th>
                     <th className="py-3 px-6 text-center">Shipping Address</th>
                     <th className="py-3 px-6 text-center">Status</th>
@@ -110,7 +115,7 @@ export default function AdminOrders() {
                   </tr>
                 </thead>
                 <tbody className="text-gray-600 text-sm font-light">
-                  {orders.map((order) => (
+                  {orders?.map((order) => (
                     <tr className="border-b border-gray-200 hover:bg-gray-100">
                       <td className="py-3 px-6 text-left whitespace-nowrap">
                         <div className="flex items-center">
@@ -119,16 +124,18 @@ export default function AdminOrders() {
                         </div>
                       </td>
                       <td className="py-3 px-6 text-left">
-                        {order.items.map((item) => (
+                        {order.items.map((item, index) => (
                           <div className="flex items-center">
                             <div className="mr-2">
                               <img
                                 className="w-6 h-6 rounded-full"
-                                src={item.thumbnail}
+                                src={item.product.thumbnail}
+                                alt="img"
                               />
                             </div>
                             <span>
-                              {item.title} - {item.quantity} - ${item.price}
+                              {item.product.title} - #{item.quantity} - $
+                              {discountPrice(item.product)}
                             </span>
                           </div>
                         ))}
@@ -138,11 +145,10 @@ export default function AdminOrders() {
                           ${order.totalAmount}
                         </div>
                       </td>
-                
+
                       <td className="py-3 px-6 text-center">
-                        {/* <div className=" ">
+                        <div className=" ">
                           <div>
-                         
                             <strong>{order.selectedAddress.name}-</strong>
                           </div>
                           <div> {order.selectedAddress.phone},</div>
@@ -150,7 +156,7 @@ export default function AdminOrders() {
                           <div>{order.selectedAddress.city},</div>
                           <div> {order.selectedAddress.state},</div>
                           <div> {order.selectedAddress.pincode}</div>
-                        </div> */}
+                        </div>
                       </td>
                       <td className={`  py-3 px-6 text-center`}>
                         {order.id === editableOrderId ? (

@@ -50,17 +50,16 @@ export default function ProductDetails() {
     e.preventDefault();
     if (items.findIndex((item) => item.product.id === product.id) < 0) {
       const newItem = {
-      
         product: product.id,
         quantity: 1,
         user: user.id,
       };
-      
+
       dispatch(addToCartAsync(newItem));
       alert.success("Item added to cart");
       //TODO: check is item added from server side?
     } else {
-      alert.show("Already Added !!!");
+      alert.error("Already Added !!!");
     }
   };
 

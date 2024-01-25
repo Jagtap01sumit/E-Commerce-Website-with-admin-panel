@@ -1,20 +1,3 @@
-export function fetchAllProducts() {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const response = await fetch("http://localhost:8080/products");
-      if (!response.ok) {
-    
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      resolve({ data });
-    } catch (error) {
-      console.error("Error fetching products:", error);
-      reject(error);
-    }
-  });
-}
 export function fetchProductById(id) {
   //TODO: we will not hard-code server URL here
   return new Promise(async (resolve) => {
@@ -34,7 +17,7 @@ export function createProduct(product) {
     resolve({ data });
   });
 }
-export function fetchProductsByFilters(filter, sort, pagination) {
+export function fetchProductsByFilters(filter, sort, pagination, admin) {
   //filter={"category":"smartphone"}
   //TODO:on server we will support ,multiple filters vales
   //TODO:on server will suport multi values in filter
@@ -54,6 +37,9 @@ export function fetchProductsByFilters(filter, sort, pagination) {
     queryString += `${key}=${pagination[key]}&`;
   }
   //TODO: we will not hard-code server URL here
+  if (admin) {
+    queryString += `admin=true`;
+  }
   return new Promise(async (resolve) => {
     // http://localhost:8080/products?category=laptops
     const response = await fetch(

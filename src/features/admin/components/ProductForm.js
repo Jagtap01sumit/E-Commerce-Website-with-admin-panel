@@ -12,9 +12,10 @@ import {
   updateProductAsync,
   clearSelectedProduct,
 } from "../../product-list/productListSlice";
-import { useParams } from "react-router-dom";
+import { useParams, useRouteError, useRoutes } from "react-router-dom";
 import { fetchProductById } from "../../product-list/productAPI";
 import { resetCart } from "../../cart/cartAPI";
+import { useAlert } from "react-alert";
 export default function ProductForm() {
   const brands = useSelector(selectBrands);
   const [openModal, setOpenModal] = useState(null);
@@ -29,6 +30,7 @@ export default function ProductForm() {
   const dispatch = useDispatch();
   const params = useParams();
   const selectedProduct = useSelector(selectProductById);
+  // const router = useRoutes();
   useEffect(
     () => {
       if (params.id) {
@@ -40,6 +42,7 @@ export default function ProductForm() {
     [params.id],
     dispatch
   );
+  const alert = useAlert();
   useEffect(() => {
     if (selectedProduct && params.id) {
       setValue("title", selectedProduct.title);
@@ -92,9 +95,13 @@ export default function ProductForm() {
             product.id = params.id;
             product.rating = selectedProduct.rating || 0;
             dispatch(updateProductAsync(product));
+            alert.success("Product Updated");
             reset();
+            // router.push("/admin");
           } else {
             dispatch(createProductAsync(product));
+            //Todo: API is succesfful or not
+            alert.success("Product Created");
             reset();
           }
         })}
@@ -106,7 +113,7 @@ export default function ProductForm() {
             </h2>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              {selectedProduct && selectedProduct.deleted &&  (
+              {selectedProduct && selectedProduct.deleted && (
                 <h2 className="text-red-500 sm:col-span-6">
                   This product is deleted
                 </h2>
@@ -453,15 +460,17 @@ export default function ProductForm() {
           </button>
         </div>
       </form>
-      {selectedProduct &&< Modal
-        title={`Delete ${selectedProduct.title}`}
-        message="Are you sure you want to delete this Product?"
-        dangerOption="Delete"
-        cancelOption="Cancel"
-        dangerAction={handleDelete}
-        cancelAction={() => setOpenModal(-1)}
-        showModal={openModal}
-      />}
+      {selectedProduct && (
+        <Modal
+          title={`Delete ${selectedProduct.title}`}
+          message="Are you sure you want to delete this Product?"
+          dangerOption="Delete"
+          cancelOption="Cancel"
+          dangerAction={handleDelete}
+          cancelAction={() => setOpenModal(-1)}
+          showModal={openModal}
+        />
+      )}
     </>
   );
 }
