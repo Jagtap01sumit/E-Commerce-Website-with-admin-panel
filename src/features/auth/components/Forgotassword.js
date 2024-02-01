@@ -1,24 +1,20 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { checkUserAsync } from "../authSlice";
+import { loginUserAsync } from "../authSlice";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { Navigate } from "react-router-dom";
 export default function ForgotPassword() {
- 
- 
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
- 
-
+  const dispatch = useDispatch();
   return (
     <>
-      
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -27,7 +23,7 @@ export default function ForgotPassword() {
             alt="Your Company"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-           Enter email to reset password
+            Enter email to reset password
           </h2>
         </div>
 
@@ -35,8 +31,7 @@ export default function ForgotPassword() {
           <form
             noValidate
             onSubmit={handleSubmit((data) => {
-             console.log(data);
-             //TODO: implementation on backend
+              dispatch(loginUserAsync({ email: data.email }));
             })}
             className="space-y-6"
             action="#"
@@ -63,7 +58,9 @@ export default function ForgotPassword() {
                   autoComplete="email"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                {errors.email && (<p className="text-red-500">{errors.email.message}</p>)}
+                {errors.email && (
+                  <p className="text-red-500">{errors.email.message}</p>
+                )}
               </div>
             </div>
             <div>
@@ -77,7 +74,7 @@ export default function ForgotPassword() {
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-           Want to Login ? {''}
+            Want to Login ? {""}
             <Link
               to="/login"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"

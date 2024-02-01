@@ -65,15 +65,14 @@ export default function UserProfile() {
                 Email address: {userInfo.email}
               </h3>
             )}
-            {userInfo.role && (
-              <h1>
-                {userInfo.role === "admin" && (
-                  <h3 className="text-xl my-5 font-bold tracking-tight text-red-500">
-                    role: {userInfo.role}
-                  </h3>
-                )}
-              </h1>
-            )}
+
+            <h1>
+              {userInfo.role === "admin" && (
+                <h3 className="text-xl my-5 font-bold tracking-tight text-red-500">
+                  role: {userInfo.role}
+                </h3>
+              )}
+            </h1>
           </div>
         )}
 

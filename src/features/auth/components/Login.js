@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { checkUserAsync, selectError, selectLoggedInUser } from "../authSlice";
+import { loginUserAsync, selectError, selectLoggedInUser } from "../authSlice";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux/es/hooks/useSelector";
@@ -37,7 +37,7 @@ export default function Login() {
             noValidate
             onSubmit={handleSubmit((data) => {
               dispatch(
-                checkUserAsync({ email: data.email, password: data.password })
+                loginUserAsync({ email: data.email, password: data.password })
               );
               console.log(data);
             })}
@@ -65,7 +65,10 @@ export default function Login() {
                   type="email"
                   autoComplete="email"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                /> {errors.email && (<p className="text-red-500">{errors.email.message}</p>)}
+                />{" "}
+                {errors.email && (
+                  <p className="text-red-500">{errors.email.message}</p>
+                )}
               </div>
             </div>
 
@@ -78,7 +81,8 @@ export default function Login() {
                   Password
                 </label>
                 <div className="text-sm">
-                  <Link to="/forgot-password"
+                  <Link
+                    to="/forgot-password"
                     href="#"
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
@@ -105,9 +109,7 @@ export default function Login() {
                   <p className="text-red-500">{errors.password.message}</p>
                 )}
               </div>
-              {error && (
-              <p className="text-red-500">{error.message}
-              </p>)}
+              {error && <p className="text-red-500">{error.message}</p>}
             </div>
 
             <div>

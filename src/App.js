@@ -36,6 +36,7 @@ import AdminProductDetailPage from "./pages/AdminProductDetailPage";
 import ProductForm from "./features/admin/components/ProductForm";
 import AdminProductForm from "./pages/AdminProductForm";
 import AdminOrdersPage from "./pages/AdminOrdersPage";
+import OTP from "../src/features/auth/components/OTP";
 
 const router = createBrowserRouter([
   {
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
     element: <ForgotPasswordPage></ForgotPasswordPage>,
   },
   {
+    path: "/otp-verification",
+    element: <OTP></OTP>,
+  },
+  {
     path: "/admin",
     element: (
       <ProtectedAdmin>
@@ -149,13 +154,14 @@ function App() {
   const user = useSelector(selectLoggedInUser);
   useEffect(() => {
     if (user) {
-      dispatch(fetchItemsByUserIdAsync(user.id));
-      dispatch(fetchLoggedInUserAsync(user.id));
+      dispatch(fetchItemsByUserIdAsync());
+      //we can get user by token on backend so no need to give front-end
+      dispatch(fetchLoggedInUserAsync());
     }
   }, [dispatch, user]);
   const options = {
     timeout: 5000,
-    position: positions.BOTTOM_LEFT
+    position: positions.BOTTOM_LEFT,
   };
   return (
     <div className="App">
