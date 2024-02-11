@@ -24,9 +24,10 @@ export default function CheckOut() {
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
   const user = useSelector(selectUserInfo);
-  console.log(user);
+  // console.log(user);
   // alert(user);
   const currentOrder = useSelector(selectCurrentOrder);
+  console.log("current order", currentOrder);
 
   const totalAmount = items.reduce(
     (amount, item) => discountPrice(item.product) * item.quantity + amount,
@@ -58,6 +59,8 @@ export default function CheckOut() {
       selectedAddress,
       status: "pending", //other status can be deliver,received
     };
+    console.log(order, "order");
+    console.log(order.paymetMethod, "pyorder");
     dispatch(createOrderAsync(order));
     //TODO: redirect to order-success page
     //TODO: clear cart
@@ -72,11 +75,17 @@ export default function CheckOut() {
   return (
     <>
       {!items.length && <Navigate to="/" replace={true}></Navigate>}
-      {currentOrder && (
+      {/* <div>
+        'hefdfsfsdnfsnfslfns{currentOrder && currentOrder.paymetMethod}
+      </div> */}
+      {currentOrder && currentOrder.paymetMethod === "cash" && (
         <Navigate
           to={`/orderSuccessPage/${currentOrder.id}`}
           replace={true}
         ></Navigate>
+      )}
+      {currentOrder && currentOrder.paymetMethod === "card" && (
+        <Navigate to={`/strip-checkout`} replace={true}></Navigate>
       )}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">

@@ -41,6 +41,7 @@ import ProductForm from "./features/admin/components/ProductForm";
 import AdminProductForm from "./pages/AdminProductForm";
 import AdminOrdersPage from "./pages/AdminOrdersPage";
 import OTP from "../src/features/auth/components/OTP";
+import StripeCheckout from "./pages/StripeCheckout";
 
 const router = createBrowserRouter([
   {
@@ -80,6 +81,14 @@ const router = createBrowserRouter([
     element: (
       <Protected>
         <ProductDetailPage />
+      </Protected>
+    ),
+  },
+  {
+    path: "/strip-checkout",
+    element: (
+      <Protected>
+        <StripeCheckout />
       </Protected>
     ),
   },
