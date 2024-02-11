@@ -1,18 +1,33 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { loginUserAsync } from "../authSlice";
-import { Link } from "react-router-dom";
+import { VerifyEmailAsync, loginUserAsync } from "../authSlice";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import { Navigate } from "react-router-dom";
+
 export default function ForgotPassword() {
   const {
     register,
     handleSubmit,
-    watch,
+
     formState: { errors },
   } = useForm();
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const onSubmit = async (data) => {
+    try {
+      const response = await dispatch(VerifyEmailAsync({ email: data.email }));
+      console.log(response.payload);
+      if (response.payload) {
+        navigate("/otp-verification");
+      } else {
+        console.log("User not found");
+        setError("User not found");
+      }
+    } catch (error) {
+      console.error("Error verifying email:", error);
+    }
+  };
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -30,9 +45,7 @@ export default function ForgotPassword() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form
             noValidate
-            onSubmit={handleSubmit((data) => {
-              dispatch(loginUserAsync({ email: data.email }));
-            })}
+            onSubmit={handleSubmit(onSubmit)}
             className="space-y-6"
             action="#"
             method="POST"
@@ -72,6 +85,7 @@ export default function ForgotPassword() {
               </button>
             </div>
           </form>
+          {error && <p className="mt-2 text-red-500 text-center">{error}</p>}
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Want to Login ? {""}
